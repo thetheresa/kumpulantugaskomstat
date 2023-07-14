@@ -1,0 +1,38 @@
+n---
+title: "Praktikum 2"
+author: "Theresa Agnes Virnauli Sinaga"
+date: "2023-02-10"
+output: html_document
+---
+
+```{r}
+setwd("C:/Thesa/UNAIR/SEM 4/tambahan/Datasets")
+data = read.csv('price.csv')
+data
+```
+## PENJELASAN
+read data, import data
+```{r}
+Get_Data=write.table(data,"M1-Data Praktikum.csv")
+```
+## PENJELASAN
+Untuk export data
+
+```{r}
+df <- read.csv("C:/Thesa/UNAIR/SEM 4/tambahan/Datasets/weekday.csv", sep=",", header=TRUE)
+library(dplyr)
+df%>%
+  group_by(Weekday) %>%
+  summarize(min_delay=min(Delay), max_delay=max(Delay), mean_delay = mean(Delay))
+```
+## PENJELASAN
+Pengelompokan per hari dari yang terbesar terkecil dan rata- ratanya 
+
+```{r}
+df %>% 
+  filter(Quarter == "Q2") %>%
+  group_by(Weekday) %>%
+  summarize(min_delay=min(Delay), max_delay=max(Delay), mean_Delay=mean(Delay))
+```
+## PENJELASAN
+Pengelompokan hanya untuk Q2

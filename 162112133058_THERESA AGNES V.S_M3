@@ -1,0 +1,174 @@
+---
+title: "162112133058_THERESA AGNES VIRNAULI SINAGA_M3"
+author: "Theresa Agnes Virnauli Sinaga"
+date: "2023-02-17"
+output: html_document
+---
+# NOMOR 1
+
+```{r}
+data("swiss") #Mengambil data dari R
+?swiss #Mengetahui terkait data
+attach(swiss) #Menghubungkan data, sehingga data selalu terhubung di command (saat run)
+```
+
+```{r}
+#sorting
+getsort = function(var){ #Membuat variabel untuk memanggil fungsi
+  for (i in 1 : (length(var) - 1)) { #Melakukan perulangan pada setiap nilai di variabel Fertility dari urutan pertama sampai terakhir
+    for (n in 1 : (length(var) - i)) { #Melakukan perulangan untuk nilai selanjutnya
+      if (var[n] > var[n + 1]) { #Jika nilai ke-n lebih besar dibanding n+1
+        pertama = var[n] #Print nilai ke n terdahulu 
+        kedua = var[n + 1] #Print nilai ke n + 1 selanjutnya
+        var[n] <- kedua #var(n) adalah nilai pada var kedua
+        var[n + 1] <- pertama #var(n) + 1 adalah nilai pada var pertama
+      }
+    }
+  } 
+  return(var) #Mengeluarkan hasil dari variabel varian
+}
+getsort(Fertility) #Coba pada var Fertili
+```
+
+```{r}
+#min
+getmin <- function(x) { #Membuat nama fungsi
+  min_value <- x[1] #Membuat variabel untuk nilai terkecil (min)
+  for (i in 2:length(x)) { #Perulangan untuk membandingkan antar nilai ke i dan i+1 (membandingkan antara 2 nilai) sampai ke nilai di posisi terakhir
+    if(x[i] < min_value) { #Jika nilai i yang lebih kecil 
+      min_value <- x[i] #Masukan nilai tersebut ke dalam variabel untuk nilai terkecil (min) yaitu variabel min_value
+    }
+  }
+  return(min_value) #Mengeluarkan hasil dari variabel min_value
+}
+getmin(Fertility) #Coba pada var Fertili
+```
+
+```{r}
+#max
+getmax <- function(x) { #Membuat nama fungsi
+  max_value <- x[1] #Membuat variabel untuk nilai terbesar (max)
+  for (i in 2 :length(x)) { #Perulangan untuk membandingkan antar nilai ke i dan i+1 (membandingkan antara 2 nilai) sampai ke nilai di posisi terakhir
+    if(x[i] > max_value) {  #Jika nilai i yang lebih besar 
+      max_value <- x[i] #Masukan nilai tersebut ke dalam variabel untuk nilai terkecil (min) yaitu variabel max_value
+    }
+  }
+  return(max_value) #Mengeluarkan hasil dari variabel max_value
+}
+getmax(Fertility) #Coba pada var Fertili
+```
+
+```{r}
+#range
+getrange <- function(x){ #Membuat nama fungsi
+  n = length(x) #Var n untuk panjang dari variabel x (banyak data)
+  u = getsort(x) #Memanggil fungsi sorting
+  min <- getmin(x) #Memanggil fungsi min (nilai terkecil)
+  maks <- getmax(x) #Memanggil fungsi max (nilai terbesar)
+  range = maks-min #Range merupakan pengurangan dari nilai terbesar dan terkecil
+  return(range) #Mengeluarkan hasil dari variabel range
+}
+getrange(Fertility) #Coba pada var Fertili
+```
+
+```{r}
+#mean
+getmean <- function(x) { #Membuat nama fungsi
+  n <- length(x) #Var n untuk panjang dari variabel x (banyak data)
+  xbar <- 0 #Membuat starting poin (variabel kosong) untuk menyimpan hasil dari perulangan
+  for (i in c(1:n)) #Perulangan dari nilai ke i sampai i terakhir pada n
+  {
+    xbar <- xbar + ((x[i]/n)) #Rumus mencari rata- rata
+  }
+  return(xbar) #Mengeluarkan hasil dari variabel xbar
+} 
+getmean(Fertility) #Coba pada var Fertili
+```
+```{r}
+getmode <- function(x) { #Membuat nama fungsi
+  uniqx <- unique(x) #Mencari nilai unik (duplicate values)
+  uniqx[which.max(tabulate(match(x, uniqx)))] #Mencari nilai unique dengan frekuensi terbanyak
+}
+getmode(Fertility) #Coba pada var Fertili
+```
+
+```{r}
+#median
+getmedian <- function(x){ #Membuat nama fungsi
+  n = length(x) #Var n untuk panjang dari variabel x (banyak data)
+  u = getsort(x) #Mengurutkan (sorting) nilai x
+  k = n*0.5 #Membagi dua jumlah/ panjang data (n) untuk melihat nilai tengahnya
+  if (n%%2==0) #Jika data adalah berjumlah genap
+  {
+    median = (u[k]+u[k+1])/2 #Nilai mediannya adalah nilai rata-rata dari indeks k dan k+1
+  }
+  else #Namun bila bukan genap --> ganjil
+  {
+    median=u[ceiling(k)] #Mengembalikan nilai terkecil yang lebih besar atau sama dengan nilai yang dikalkulasi di var k
+  }
+  return(median) #Mengembalikan/ mengeluarkan nilai median
+}
+getmedian(Fertility) #Coba pada var Fertili
+```
+```{r}
+getvar <- function(x) { #Membuat nama fungsi
+  n = length(x) #Var n untuk panjang dari variabel x (banyak data)
+  dev = 0 #Starting poin (variabel kosong) untuk menyimpan nilai perulangan
+  for (i in 1:n) #Perulangan dari nilai ke i sampai i terakhir pada n
+  {
+    dev = dev + (x[i]-getmean(x))^2 #Menambahkan jumlah setiap suku(n) – rata-rata)^2 ke var dev
+    varians = dev/(n-1) #Membuat rumus varians, n-1 supaya tidak bias
+  }
+    return(varians) #Mengembalikan/ mengeluarkan nilai variabel varians
+}
+getvar(Fertility) #Coba pada var Fertili
+```
+```{r}
+getstd <- function(x) { #Membuat nama fungsi
+  {
+    std = sqrt(getvar(x)) #Mengakar nilai varians
+  }
+    return(std) #Mengembalikan/ mengeluarkan nilai variabel std
+}
+getstd(Fertility) #Coba pada var Fertili
+```
+
+```{r}
+getstatdesc <- function(x){ #Membuat nama fungsi
+  {
+    min = getmin(x) #Memanggil fungsi
+    max = getmax(x)
+    range = getrange(x)
+    mean = getmean(x)
+    median = getmedian(x)
+    modus = getmode(x)
+    varians = getvar(x)
+    stdev = getstd(x)
+  }
+  summary = list(min = min, max= max, range= range, mean = mean, median = median, mode = modus, Var = varians, std = stdev)
+  cbind(summary)
+}
+getstatdesc(Fertility) #Hasil
+```
+# NOMOR 2
+
+```{r}
+getcor <- function(x,y){ #Membuat nama fungsi
+  {
+    n = length(x) #Var n untuk panjang dari variabel x (banyak data)
+    mean_x = getmean(x) #Memanggil fungsi
+    mean_y = getmean(y) 
+    std_x = getstd(x)
+    std_y = getstd(y)
+  }
+  rxy <- sum((x -mean_x)*(y - mean_y))/((n - 1)*std_x*std_y) #Rumus korelasi
+  return(rxy) #Mengemmbalikan/ menampilkan hasil dari var rxy
+}
+getcor(Fertility,Agriculture) #Mencoba pada var Fertility dan Agricultur
+```
+
+```{r}
+cor.test(Fertility,Agriculture,method=c('pearson')) #Menghitung dengan manual
+```
+# Kesimpulan --> Korelasi Pearson dengan hitung manual (N sigma XY - sigma ((X*sigma Y)/sqrt(N*sigma X^2-(sigma X)^2)*sqrt(N*sigma Y- (sigma Y^2)) memiliki hasil nilai yang sama dengan menggunakan fungsi langsung dari R (corr).
+

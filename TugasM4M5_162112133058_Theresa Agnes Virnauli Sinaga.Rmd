@@ -1,0 +1,98 @@
+---
+title: "Theresa_W4_W5"
+author: "Theresa Agnes Virnauli Sinaga"
+date: "2023-03-16"
+output: html_document
+---
+1. Lakukan generate data dari distribusi Bernoulli(p), Geometrik(p) dan Weibull(α,β) dengan metode transformasi invers
+
+```{r}
+# Bernoulli
+inverse_transform_bernoulli <- function(u, p) {
+  return(ifelse(u <= p, 1, 0))
+}
+```
+
+```{r}
+pmf_bernoulli <- function(x, p) {
+  return(p^x * (1-p)^(1-x))
+}
+```
+
+```{r}
+n <- 1000 
+set.seed(123) 
+u <- runif(n) 
+p <- 0.3  
+x_i <- inverse_transform_bernoulli(u, p)  
+}
+```
+
+```{r}
+# Geometrik
+n <- 1000
+set.seed(123)
+u <- runif (n)
+p <- 0.5 #nilai probabilitasnya
+geo_manual <- floor(log((1-u), base = (1-p))-1) #rumus x invers (geometric manual)
+head(geo_manual)
+```
+
+```{r}
+# Weibull
+n <- 1000
+k <- 2 #skala
+lambda <- 3 #parameter bentuk
+U <- runif(n, min=0)
+wei_manual <- lambda * (-log(u))^(1/k)
+head(wei_manual)
+```
+
+2. Lakukan generate data dari fungsi bawaan di R (rbinom, rgeom, dan rweibull)
+
+```{r}
+#rbinom
+x_d <- rbinom(n, 1, p)  # generate random numbers using the rbinom function
+```
+
+```{r}
+# rgeom
+set.seed(123)
+n <- 1000
+geo <- rgeom(n, prob = 0.5)
+head(geo)
+```
+
+```{r}
+# rweibull
+n <- 1000
+set.seed(123)
+wei <- rweibull(n, shape = 2, scale = 3)
+head(wei)
+```
+3.	Buat visualisasi dalam bentuk histogram data hasil bangkitan dari kedua cara tersebut. Jelaskan insight yang didapatkan.
+```{r}
+#Bernoulli]
+x <- c(0, 1)  # possible values for a Bernoulli distribution
+par(mfrow = c(1,2))  # set up a 2x1 plot layout
+hist(x_i, breaks = c(-0.5, 0.5, 1.5), col = "lightblue", main = "Inverse Transform Method with Bernoulli Distribution")
+barplot(pmf_bernoulli(x, p), names.arg = x, col = "lightblue", main = "Direct Sampling from Bernoulli Distribution")
+```
+Insight : Di atas adalah histogram dari hasil data dari persebaran menggunakan distribusi bernoulli yang berpatok pada suatu CDF terkait. Dari histogram di atas didapatkan bahwa tidak dapat perbedaan persebaran data yang signifikan pada histogram yang menggunakan transformasi invers maupun dengan fungsi bawaan dari R (yakni rbinom), walaupun data yang digunakan berbeda karena menggunakan random number (tidak berpengaruh apa- apa). Oleh karena itu, dua metode tersebut dapat diimpelementasikan. Menilik dari kelebihan dan kekurangannya, dengan metode transformasi invers (manual), user bisa mengembangkannya lebih lagi. Sementara itu, dengan metode fungsi bawaan R, user akan lebih efektif mengimplementasikannya.
+
+```{r}
+#Geometri
+par(mfrow=c(1,2))
+hist(geo_manual, main="Percobaan Geometri Manual")
+hist(geo, main="Percobaan Geometri dengan Rumus R")
+```
+
+Insight : Di atas adalah histogram dari hasil data dari persebaran menggunakan distribusi geometri yang berpatok pada suatu CDF terkait. Dari histogram di atas didapatkan bahwa tidak dapat perbedaan persebaran data yang signifikan pada histogram yang menggunakan transformasi invers maupun dengan fungsi bawaan dari R (yakni rgeom), walaupun data yang digunakan berbeda karena menggunakan random number (tidak berpengaruh apa- apa). Oleh karena itu, dua metode tersebut dapat diimpelementasikan. Menilik dari kelebihan dan kekurangannya, dengan metode transformasi invers (manual), user bisa mengembangkannya lebih lagi. Sementara itu, dengan metode fungsi bawaan R, user akan lebih efektif mengimplementasikannya.
+
+```{r}
+#Weibull
+par(mfrow=c(1,2))
+hist(wei_manual, main="Percobaan Weibull Manual")
+hist(wei, main="Percobaan Weibull dengan Rumus R")
+```
+Insight : Di atas adalah histogram dari hasil data dari persebaran menggunakan distribusi weibull yang berpatok pada suatu CDF terkait. Dari histogram di atas didapatkan bahwa tidak dapat perbedaan persebaran data yang signifikan pada histogram yang menggunakan transformasi invers maupun dengan fungsi bawaan dari R (yakni rweibull), walaupun data yang digunakan berbeda karena menggunakan random number (tidak berpengaruh apa- apa). Oleh karena itu, dua metode tersebut dapat diimpelementasikan. Menilik dari kelebihan dan kekurangannya, dengan metode transformasi invers (manual), user bisa mengembangkannya lebih lagi. Sementara itu, dengan metode fungsi bawaan R, user akan lebih efektif mengimplementasikannya.

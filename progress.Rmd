@@ -1,0 +1,152 @@
+---
+title: "162112133058_THERESA AGNES V.S_M2"
+author: "Theresa Agnes Virnauli Sinaga"
+date: "2023-02-10"
+output: html_document
+---
+
+## NOMOR 1
+```{r}
+df <- read.csv("C:/Thesa/UNAIR/SEM 4/tambahan/Datasets/Life Expectancy Data.csv")
+df
+```
+# Mengimport dataset dari drive pribadi 
+
+# NOMOR 2
+```{r}
+colSums(is.na(df))
+```
+# Mengecek variabel yang memiliki missing value dan berapa totalnya per variabel
+
+## NOMOR 3
+```{r}
+library(VIM)
+aggr_plot = aggr(df, col=c('blue','yellow'), numbers=TRUE, sortVars=TRUE, labels=names(df), cex.axis=.7, gap=5, ylab=c("Histogram of Missing Value", "Pattern"))
+```
+# Di atas adalah histogram dari semua variabel yang mengandung missing value dengan menggunakan package library mice. Histogram sebelah kiri adalah banyak dari missing value dan yang sebelah kanan adalah perbandingan dari pesebaran missing value pada variabel yang memiliki missing value.
+
+```{r}
+hist(df$Population)
+hist(df$GDP)
+hist(df$Alcohol)
+hist(df$Schooling)
+hist(df$Polio)
+hist(df$Life.expectancy)
+hist(df$Adult.Mortality)
+hist(df$Hepatitis.B)
+hist(df$thinness..1.19.years)
+hist(df$thinness.5.9.years)
+hist(df$Diphtheria)
+hist(df$Total.expenditure)
+hist(df$Income.composition.of.resources)
+hist(df$BMI)
+```
+
+# Di atas adalah histogram dari tiap- tiap variabel yang memiliki missing value
+
+## NOMOR 4
+```{r}
+var1 <- (df$Population)
+var2 <- (df$GDP)
+var3 <- (df$Alcohol)
+var4 <- (df$Schooling)
+var5 <- (df$Polio)
+var6 <- (df$Life_expectancy)
+var7 <- (df$Adult.Mortality)
+var8 <- (df$Hepatitis.B)
+var9 <- (df$thinness..1.19.years)
+var10 <- (df$thinness.5.9.years)
+var11 <- (df$Diphtheria)
+var12 <- (df$Total.expenditure)
+var13 <- (df$Income.composition.of.resources)
+var14 <- (df$BMI)
+```
+# Penamaan dari setiap variabel yang memiliki missing value
+
+```{r}
+var1_new <- median(df$Population, na.rm=T) #var1_new berisi nilai tengah (median) pada variabel population 
+df$Population[is.na(df$Population)] = var1_new #mengisi tiap- tiap missing value  dengan nilai var1_new
+sum(is.na(df$Population)) #mengecek apakah masih terdapat missing value atau tidak
+
+var2_new <- median(df$GDP, na.rm=T)
+df$GDP[is.na(df$GDP)] = var2_new
+sum(is.na(df$GDP))
+
+var3_new <- median(df$Alcohol, na.rm=T)
+df$Alcohol[is.na(df$Alcohol)] = var3_new
+sum(is.na(df$Alcohol))
+
+var4_new <- mean(df$Schooling, na.rm=T)
+df$Schooling[is.na(df$Schooling)] = var4_new
+sum(is.na(df$Schooling))
+
+var5_new <- median((df$Polio), na.rm=T)
+df$Polio[is.na((df$Polio))] = var5_new
+sum(is.na((df$Polio)))
+
+var6_new <- median(df$Life_expectancy, na.rm=T)
+df$Life_expectancy[is.na(df$Life_expectancy)] = var6_new
+sum(is.na(df$Life_expectancy))
+
+var7_new <- median(df$Adult.Mortality, na.rm=T)
+df$Adult.Mortality[is.na(df$Adult.Mortality)] = var7_new
+sum(is.na(df$Adult.Mortality))
+
+var8_new <- median(var9, na.rm=T)
+df$Hepatitis.B[is.na(df$Hepatitis.B)] = var8_new
+sum(is.na(df$Hepatitis.B))
+
+var9_new <- median(df$thinness..1.19.years, na.rm=T)
+df$thinness..1.19.years[is.na(df$thinness..1.19.years)] = var9_new
+sum(is.na(df$thinness..1.19.years))
+
+var10_new <- median(df$thinness.5.9.years, na.rm=T)
+df$thinness.5.9.years[is.na(df$thinness.5.9.years)] = var10_new
+sum(is.na(df$thinness.5.9.years))
+
+var11_new <- median(df$Diphtheria, na.rm=T)
+df$Diphtheria[is.na(df$Diphtheria)] = var11_new
+sum(is.na(df$Diphtheria))
+
+var12_new <- median(df$Total.expenditure, na.rm=T)
+df$Total.exenditure[is.na(df$Total.expenditure)] = var12_new
+sum(is.na(df$Total.expenditure))
+
+var13_new <- median(df$Income.composition.of.resources, na.rm=T)
+df$Income.composition.of.resources[is.na(df$Income.composition.of.resources)] = var13_new
+sum(is.na(df$Income.composition.of.resources))
+
+var14_new <- median(df$BMI, na.rm=T)
+df$BMI[is.na(df$BMI)] = var14_new
+sum(is.na(df$BMI))
+
+```
+# Mengisi tiap missing value dengan nilai median atau mean. Saya mengganti dengan nilai median untuk tiap histogram yang memiliki skewness tidak normal (ke kanan atau ke kiri) karena mengantisipasi adanya outlier yang mampu mengubah nilai rata- rata. Lalu untuk variabel berdistribusi normal, saya ganti dengan nilai mean-nya
+
+## NOMOR 5
+```{r}
+library(dplyr) #install library untuk melakukan fitur group_by
+df %>% #panggil data frame
+  filter(Year == 2015) %>% #melakukan groupping dengan parameternya adalah tahun 2015
+  group_by(Status) %>% #pengelompokan berdasarkan status
+  summarize(count = n()) #menghitung jumlah status berkembang dan maju
+```
+# Dengan teknik grouping membuat tabel seperti di atas
+
+```{r}
+library(dplyr) #install library untuk melakukan fitur group_by
+df %>% #panggil data frame
+  filter(Country == "Indonesia") %>% #melakukan groupping dengan parameternya adalah negara Indonesia
+  group_by(Year) %>% #pengelompokan berdasarkan tahun
+  summarize(Mean=mean(Life.expectancy), Median= median(Life.expectancy), Min=min(Life.expectancy), Max=max(Life.expectancy)) #menghitung mean, median, min, max
+```
+# Dengan teknik grouping membuat tabel seperti di atas
+
+```{r}
+library(dplyr) #install library untuk melakukan fitur group_by
+df %>% #panggil data frame
+  filter(Year == 2010) %>% #melakukan groupping dengan parameternya adalah tahun 2010
+  group_by(Status) %>% #pengelompokan berdasarkan status
+  summarize(Mean=mean(GDP), Median= median(GDP), Min=min(GDP), Max=max(GDP))#menghitung jumlah status berkembang dan maju
+```
+# Dengan grouping membuat tabel seperti di atas
